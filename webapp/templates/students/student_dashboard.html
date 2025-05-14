@@ -1,0 +1,37 @@
+<!-- templates/students/student_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Welcome, {{ student.firstName }} {{ student.lastName }}</h2>
+    <p>Student ID: {{ student.studentNumber }}</p>
+    
+    <div class="attendance-section">
+        <h3>Today's Attendance</h3>
+        {% if todays_attendance %}
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Status</th>
+                        <th>Time Recorded</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in todays_attendance %}
+                    <tr>
+                        <td>{{ record.subjectCode.subjectName }}</td>
+                        <td class="status-{{ record.status|lower }}">
+                            {{ record.get_status_display }}
+                        </td>
+                        <td>{{ record.dateAndTime|time }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="no-attendance">No attendance recorded for today</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
